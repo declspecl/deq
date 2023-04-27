@@ -104,6 +104,8 @@ std::string Token::to_string() const
         return "CASE";
     case LET:
         return "LET";
+    case MUT:
+        return "MUT";
     case FN:
         return "FN";
     case THIS:

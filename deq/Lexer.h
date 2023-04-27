@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Token.h"
+#include "ErrorManager.h"
 
 #include <vector>
 #include <string>
@@ -9,9 +10,15 @@
 class Lexer
 {
 private:
-	static Token find_next_token(const char* str, unsigned offset);
+	bool add_next_token();
 
 public:
-	static std::vector<Token> tokenize(const char* str);
-	static std::vector<Token> tokenize(std::string str);
+	std::vector<Token> tokens;
+	const char* source;
+	unsigned offset;
+
+	Lexer();
+	Lexer(std::vector<Token> tokens, const char* source, unsigned offset);
+
+	bool tokenize();
 };

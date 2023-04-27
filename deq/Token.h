@@ -32,7 +32,7 @@ enum TokenType
 	// keywords
 	IF, ELSE, FOR, WHILE,
 	MATCH, CASE,
-	LET, FN,
+	LET, MUT, FN,
 	THIS,
 	RETURN,
 	NULL_,
@@ -55,6 +55,7 @@ enum TokenType
 
 	// misc
 	UNKNOWN,
+	IGNORE_INVALID,
 	EOF_
 };
 
@@ -77,4 +78,5 @@ public:
 	static inline bool is_period(char character) { return character == '.'; }
 	static inline bool is_null_byte(char character) { return character == '\0'; }
 	static inline bool is_newline(char character) { return character == '\n'; }
+	static inline bool is_tab(char character) { return character == '\t'; }
 };
