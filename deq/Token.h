@@ -4,7 +4,7 @@
 
 enum TokenType
 {
-	// single char tokens
+	// symbol tokens
 	L_PAREN, R_PAREN,
 	L_SQUARE_BRACKET, R_SQUARE_BRACKET,
 	L_CURLY_BRACKET, R_CURLY_BRACKET,
@@ -26,7 +26,7 @@ enum TokenType
 	ASTERISK, ASTERISK_EQUALS,
 	PLUS, PLUS_EQUALS,
 	EQUALS, DOUBLE_EQUALS,
-	MINUS, MINUS_EQUALS,
+	MINUS, MINUS_EQUALS, ARROW,
 	UNDERSCORE,
 
 	// keywords
@@ -43,6 +43,7 @@ enum TokenType
 	F32, F64,
 	STRING, CHAR,
 	BOOL,
+	VOID,
 
 	// literals
 	IDENTIFIER,
@@ -75,4 +76,5 @@ public:
 	static inline bool is_whitespace(char character) { return character == ' '; }
 	static inline bool is_period(char character) { return character == '.'; }
 	static inline bool is_null_byte(char character) { return character == '\0'; }
+	static inline bool is_newline(char character) { return character == '\n'; }
 };

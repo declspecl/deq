@@ -86,6 +86,8 @@ std::string Token::to_string() const
         return "MINUS";
     case MINUS_EQUALS:
         return "MINUS_EQUALS";
+    case ARROW:
+        return "ARROW";
     case UNDERSCORE:
         return "UNDERSCORE";
     case IF:
@@ -136,6 +138,8 @@ std::string Token::to_string() const
         return "CHAR";
     case BOOL:
         return "BOOL";
+    case VOID:
+        return "VOID";
     case IDENTIFIER:
         return "IDENTIFIER";
     case INTEGER_LITERAL:

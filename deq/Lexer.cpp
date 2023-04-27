@@ -38,7 +38,7 @@ Token Lexer::find_next_token(const char* str, unsigned offset)
 	case ';':
 		return Token(TokenType::SEMICOLON, offset, 1);
 	case '\'':
-		if ((!Token::is_null_byte(str[offset + 1]) && (str[offset + 2] == '\0')))
+		if ((!Token::is_null_byte(str[offset + 1]) && (str[offset + 2] == '\'')))
 			return Token(TokenType::CHAR_LITERAL, offset, 3);
 		
 		// else TODO: invalid character / single quote detected, error
@@ -46,8 +46,10 @@ Token Lexer::find_next_token(const char* str, unsigned offset)
 	{
 		unsigned length = 1;
 
-		while (str[offset + length] != '\"')
+		while (!Token::is_null_byte(str[offset + length]) && str[offset + length] != '\"')
 			length++;
+
+		// TODO: handle error if encounters null byte before double quote
 
 		return Token(TokenType::STRING_LITERAL, offset, length + 1);
 	}
@@ -101,6 +103,8 @@ Token Lexer::find_next_token(const char* str, unsigned offset)
 	case '-':
 		if (str[offset + 1] == '=')
 			return Token(TokenType::MINUS_EQUALS, offset, 2);
+		else if (str[offset + 1] == '>')
+			return Token(TokenType::ARROW, offset, 2);
 		else
 			return Token(TokenType::MINUS, offset, 1);
 	case '_':
@@ -154,6 +158,8 @@ Token Lexer::find_next_token(const char* str, unsigned offset)
 			return Token(TokenType::CHAR, offset, 4);
 		else if (strncmp(str + offset, "bool", 4) == 0)
 			return Token(TokenType::BOOL, offset, 4);
+		else if (strncmp(str + offset, "void", 4) == 0)
+			return Token(TokenType::VOID, offset, 4);
 		else if (strncmp(str + offset, "true", 4) == 0)
 			return Token(TokenType::TRUE_LITERAL, offset, 4);
 		else if (strncmp(str + offset, "false", 5) == 0)
@@ -209,16 +215,49 @@ std::vector<Token> Lexer::tokenize(const char* str)
 	{
 		printf("offset: %d\n", offset);
 
-		if (!Token::is_whitespace(str[offset]))
+		if (Token::is_whitespace(str[offset]))
 		{
+			offset++;
+
+			continue;
+		}
+		else if (strncmp(str + offset, "//", 2) == 0)
+		{
+			while (!Token::is_newline(str[offset]) && !Token::is_null_byte(str[offset]))
+				offset++;
+
+			// TODO: is it possible for this to go on infinitely?
+
+			continue;
+		}
+		else if (strncmp(str + offset, "/*", 2) == 0)
+		{
+			std::cout << "found */" << std::endl;
+			while (!Token::is_null_byte(str[offset]))
+			{
+				if (strncmp(str + offset, "*/", 2) == 0)
+				{
+					offset += 2;
+
+					break;
+				}
+				else
+					offset++;
+			}
+
+			// TOOD: need to handle error that its not closed
+
+			continue;
+		}
+		else
+		{
+
 			Token next_token = Lexer::find_next_token(str, offset);
 
 			tokens.push_back(next_token);
 
 			offset += next_token.length;
 		}
-		else
-			offset++;
 	}
 
 	return tokens;
