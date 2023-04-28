@@ -31,14 +31,19 @@ int main(int argc, char** argv)
 			if (user_input == "quit")
 				break;
 
-			std::vector<Token> tokens = Lexer::tokenize(user_input.c_str());
+			Lexer lexer(user_input.c_str());
 
-			std::cout << tokens.size() << " tokens found:" << std::endl;
+			if (!lexer.tokenize())
+				continue;
 
-			for (const Token& token : tokens)
+#ifdef _DEBUG
+			std::cout << lexer.tokens.size() << " tokens found:" << std::endl;
+
+			for (const Token& token : lexer.tokens)
 				std::cout << token.to_string() << ": " << user_input.substr(token.offset, token.length) << std::endl;
 
 			std::cout << std::endl;
+#endif
 		}
 	}
 

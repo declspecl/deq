@@ -5,20 +5,17 @@
 
 #include <vector>
 #include <string>
-#include <iostream>
 
 class Lexer
 {
 private:
-	bool add_next_token();
+	bool add_next_token(unsigned offset);
 
 public:
 	std::vector<Token> tokens;
 	const char* source;
-	unsigned offset;
 
-	Lexer();
-	Lexer(std::vector<Token> tokens, const char* source, unsigned offset);
+	Lexer(const char* source, std::vector<Token> tokens = {});
 
 	bool tokenize();
 };
