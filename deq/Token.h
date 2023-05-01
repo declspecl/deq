@@ -31,6 +31,7 @@ enum TokenType
 
 	// keywords
 	IF, ELSE, FOR, WHILE,
+	CLASS, PUBLIC, PRIVATE, PROTECTED, STATIC,
 	MATCH, CASE,
 	LET, MUT, FN,
 	THIS,
@@ -67,7 +68,7 @@ public:
 	unsigned offset;
 	unsigned length;
 
-	Token(TokenType type, unsigned offset, unsigned length);
+	Token(TokenType type, unsigned offset, unsigned length) noexcept;
 
 	std::string to_string() const;
 

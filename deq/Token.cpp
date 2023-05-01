@@ -1,6 +1,6 @@
 #include "Token.h"
 
-Token::Token(TokenType type, unsigned offset, unsigned length)
+Token::Token(TokenType type, unsigned offset, unsigned length) noexcept
 	: type(type)
 	, offset(offset)
 	, length(length)
@@ -98,6 +98,16 @@ std::string Token::to_string() const
         return "FOR";
     case WHILE:
         return "WHILE";
+    case CLASS:
+        return "CLASS";
+    case PUBLIC:
+        return "PUBLIC";
+    case PRIVATE:
+        return "PRIVATE";
+    case PROTECTED:
+        return "PROTECTED";
+    case STATIC:
+        return "STATIC";
     case MATCH:
         return "MATCH";
     case CASE:

@@ -6,17 +6,7 @@
 
 int main(int argc, char** argv)
 {
-	if (argc > 2)
-	{
-		std::cout << "[!] Error code 64: Too many arguments inputted. Usage: `deq` or `deq <scriptname>`" << std::endl;
-
-		return 64;
-	}
-	else if (argc == 2) // file interpreter
-	{
-		const char* target_file = argv[1];
-	}
-	else // real time interpreter
+	if (argc < 2) // real time interpreter
 	{
 		std::cout << "This is the deq real time interpreter.\nInput code line by line and see it execute after each line. Type \"quit\" to quit.\n" << std::endl;
 
@@ -33,8 +23,10 @@ int main(int argc, char** argv)
 
 			Lexer lexer(user_input.c_str());
 
-			if (!lexer.tokenize())
-				continue;
+			bool had_error = lexer.tokenize();
+
+			if (had_error)
+				std::cout << "had error" << std::endl;
 
 #ifdef _DEBUG
 			std::cout << lexer.tokens.size() << " tokens found:" << std::endl;
@@ -45,6 +37,16 @@ int main(int argc, char** argv)
 			std::cout << std::endl;
 #endif
 		}
+	}
+	else if (argc == 2) // file interpreter
+	{
+		const char* target_file = argv[1];
+	}
+	else
+	{
+		std::cout << "[!] Error code 64: Too many arguments inputted. Usage: `deq` or `deq <scriptname>`" << std::endl;
+
+		return 64;
 	}
 
 	return 0;

@@ -15,7 +15,7 @@ public:
 	std::vector<Token> tokens;
 	const char* source;
 
-	Lexer(const char* source, std::vector<Token> tokens = {});
+	Lexer(const char* source, std::vector<Token> tokens = {}) noexcept;
 
 	bool tokenize();
 };
